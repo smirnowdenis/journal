@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Journal Application</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<table class="borderless">
+    <td class="borderless">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Date of birth</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="student : ${students}">
+                    <td><span th:text="${student.id}" id="id">ID</span></td>
+                    <td><span th:text="${student.fullName}" id="fullName">Full Name</span></td>
+                    <td><span th:text="${student.dateOfBirth}" id="dateOfBirth">Date of birth</span></td>
+                    <td><span th:text="${student.grade.grade}" id="PerformanceId">Grade</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+    <td class="borderless management">
+        <form action="#" th:action="@{/add}" th:object="${addStudent}" method="post">
+            <label>Full Name</label><input type="text" th:field="*{fullName}" placeholder="Full Name">
+            <label>Date of birth</label><input type="text" th:field="*{dateOfBirth}" placeholder="Date of birth">
+            <label>Grade ID</label><input type="text" th:field="*{gradeId}" placeholder="Grade ID">
+            <button type="submit" name="add">Add student</button>
+        </form>
+        <hr>
+        <form action="#" th:action="@{/delete}" th:object="${deleteStudent}" method="post">
+            <label>ID</label><input type="text" th:field="*{id}" placeholder="ID">
+            <button type="submit" name="delete">Delete student</button>
+        </form>
+        <hr>
+        <form action="#" th:action="@{/update}" th:object="${updateStudent}" method="post">
+            <label>ID</label><input type="text" th:field="*{id}" placeholder="ID">
+            <label>Full Name</label><input type="text" th:field="*{fullName}" placeholder="Full Name">
+            <label>Date of birth</label><input type="text" th:field="*{dateOfBirth}" placeholder="Date of birth">
+            <label>Grade ID</label><input type="text" th:field="*{gradeId}" placeholder="Grade ID">
+            <button type="submit" name="update">Update student</button>
+        </form>
+    </td>
+</table>
+</body>
+</html>

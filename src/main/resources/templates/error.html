@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Journal Application</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<ul>
+    <li class="error" th:each="error : ${errors}" th:text="${error}">Error</li>
+</ul>
+</body>
+</html>

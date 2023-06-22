@@ -1,0 +1,22 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/journal?currentSchema=journal
+    username: postgres
+    password: postgres
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/journal
+    user: postgres
+    password: postgres
+    default-schema: journal
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+springdoc:
+  packages-to-scan: ru.smirnov.journal.controller
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha

@@ -1,0 +1,25 @@
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+th, td {
+    padding: 5px 15px;
+}
+
+tr {
+    line-height: 35px;
+}
+
+.borderless {
+    border: 0px;
+}
+
+.management {
+    text-align: left;
+}
+
+.error {
+    color: red;
+    font-size: 20px;
+}

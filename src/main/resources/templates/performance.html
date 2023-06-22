@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Journal Application</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<table class="borderless">
+    <td class="borderless">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Grade</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="performance : ${performances}">
+                <td><span th:text="${performance.id}">ID</span></td>
+                <td><span th:text="${performance.grade}">Grade</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+    <td class="borderless">
+        <form action="#" th:action="@{/performance/update}" th:object="${updatePerformance}" method="post">
+            <label>ID</label><input type="text" th:field="*{id}" placeholder="ID">
+            <label>Grade</label><input type="text" th:field="*{grade}" placeholder="Grade">
+            <button type="submit" name="update">Update performance</button>
+        </form>
+    </td>
+</table>
+</body>
+</html>
