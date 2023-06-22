@@ -2,12 +2,10 @@
 
 ## Initialize Database
 #### 1. You need to connect to your db user by following way:
-linux: sudo -u username
+linux: sudo -u username <br/>
 windows: psql -U username
-#### 2. Execute this scripts in terminal to initialize database and schema
-CREATE DATABASE journal; <br/>
--c journal <br/>
-CREATE SCHEMA journal; <br/>
+#### 2. Execute this scripts in terminal to initialize database
+CREATE DATABASE journal;
 #### 3. Put right credentials in application.yaml
 #### 4. Other steps are executing by flyway
 
