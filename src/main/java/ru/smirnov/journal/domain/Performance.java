@@ -30,7 +30,7 @@ public class Performance {
         if (row.get("p_id") != null) {
             return new Performance(Long.parseLong(row.get("p_id").toString()), row.get("grade").toString());
         } else {
-            throw new IllegalStateException(String.format("Student with ID: %s didn't have link with grade", row.get("s_id")));
+            return new Performance(0L, "-");
         }
     }
 }

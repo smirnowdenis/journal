@@ -7,7 +7,7 @@ public class StudentDTO {
     @NotNull(message = "Id shouldn't be null")
     private Long id;
     @NotBlank(message = "Full name is mandatory")
-    @Pattern(regexp = "\\D+\\s\\D+",
+    @Pattern(regexp = "[а-яА-Я]+\\s[а-яА-Я]+\\s[а-яА-Я]+|[а-яА-Я]+\\s[а-яА-Я]+|[a-zA-Z]+\\s[a-zA-Z]+\\s[a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+",
             message = "Full name should be like \"FirstName SecondName SurName\" or \"FirstName SecondName\"")
     private String fullName;
     @NotBlank(message = "Date of birth is mandatory")
@@ -16,7 +16,6 @@ public class StudentDTO {
     private String dateOfBirth;
     @Min(value = 2, message = "Grade should be equals or greater than 2")
     @Max(value = 5, message = "Grade should be equals or lesser than 5")
-    @NotNull(message = "Grade id shouldn't be null")
     private Long gradeId;
 
     public StudentDTO() {

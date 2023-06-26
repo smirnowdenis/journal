@@ -29,6 +29,7 @@ public class PerformanceService {
     }
 
     public Mono<Performance> getPerformanceById(Long id) {
+        if (id == null) return Mono.just(new Performance(null, null));
         return performanceRepo.findById(id)
                 .switchIfEmpty(Mono.error(new PerformanceNotFoundException(id)));
     }

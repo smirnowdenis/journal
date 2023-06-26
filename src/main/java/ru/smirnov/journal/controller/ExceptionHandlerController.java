@@ -5,15 +5,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.reactive.result.view.Rendering;
+import reactor.core.publisher.Mono;
 import ru.smirnov.journal.exception.PerformanceNotFoundException;
 import ru.smirnov.journal.exception.StudentNotFoundException;
 
 import java.util.List;
 
-@RestControllerAdvice
+
+@ControllerAdvice
 public class ExceptionHandlerController {
     public static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerController.class);
 
@@ -21,14 +24,17 @@ public class ExceptionHandlerController {
             StudentNotFoundException.class,
             PerformanceNotFoundException.class
     })
-    ResponseEntity<String> handleNotFoundException(RuntimeException e) {
-        logger.debug("Handling exception: {}", e);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public Mono<Rendering> handleNotFoundException(RuntimeException e) {
+        logger.debug("Handling exception: {0}", e);
+        return Mono.just(Rendering.view("error")
+                .modelAttribute("errors", e.getMessage())
+                .status(HttpStatus.NOT_FOUND)
+                .build());
     }
 
     @ExceptionHandler(WebExchangeBindException.class)
     public ResponseEntity<List<String>> handleValidationException(WebExchangeBindException e) {
-        logger.debug("Handling exception: {}", e);
+        logger.debug("Handling exception: {0}", e);
         List<String> errors = e.getBindingResult()
                 .getAllErrors()
                 .stream()

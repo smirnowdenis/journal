@@ -1,6 +1,8 @@
 package ru.smirnov.journal.repo;
 
 import io.r2dbc.spi.ConnectionFactory;
+import io.r2dbc.spi.Parameters;
+import io.r2dbc.spi.R2dbcType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -20,7 +22,7 @@ public class StudentRepoImpl implements StudentRepo {
     private static final String SELECT_QUERY = """
                 SELECT s.id s_id, full_name, date_of_birth, performance_id,
                 p.id p_id, grade FROM journal.student s
-                LEFT JOIN journal.performance p ON p.id = s.performance_id
+                LEFT OUTER JOIN journal.performance p ON p.id = s.performance_id
             """;
 
     private final DatabaseClient client;
@@ -49,8 +51,8 @@ public class StudentRepoImpl implements StudentRepo {
                 .all()
                 .bufferUntilChanged(res -> res.get("s_id"))
                 .flatMap(Student::fromRows)
-                .singleOrEmpty()
-                .switchIfEmpty(Mono.error(new StudentNotFoundException(id)));
+                .switchIfEmpty(Mono.error(new StudentNotFoundException(id)))
+                .singleOrEmpty();
     }
 
     @Override
@@ -60,7 +62,7 @@ public class StudentRepoImpl implements StudentRepo {
                         "VALUES ((:fullName), (:dateOfBirth), (:performanceId))")
                 .bind("fullName", student.getFullName())
                 .bind("dateOfBirth", LocalDate.of(date[0], date[1], date[2]))
-                .bind("performanceId", student.getGrade().getId())
+                .bind("performanceId", Parameters.in(R2dbcType.INTEGER, student.getGrade().getId()))
                 .filter(((statement, next) -> statement.returnGeneratedValues("id").execute()))
                 .fetch()
                 .first()
@@ -91,7 +93,7 @@ public class StudentRepoImpl implements StudentRepo {
                 .bind("id", student.getId())
                 .bind("fullName", student.getFullName())
                 .bind("dateOfBirth", LocalDate.of(date[0], date[1], date[2]))
-                .bind("perfromanceId", student.getGrade().getId())
+                .bind("perfromanceId", Parameters.in(R2dbcType.INTEGER, student.getGrade().getId()))
                 .fetch()
                 .rowsUpdated()
                 .doOnSuccess(res -> logger.info("Student with ID: {} was updated", student.getId()))
